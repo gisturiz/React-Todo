@@ -9,7 +9,7 @@ function TodoForm(props) {
                 name="todoInput"
                 onChange={props.handleChanges}
             />
-            <button>Add Todo</button><button>Clear Completed</button>
+            <button>Add Todo</button><button onClick={props.removePurchased}>Clear Completed</button>
         </form>
     );
 };

@@ -13,6 +13,7 @@ class App extends React.Component {
     this.state = {
       todoOnState: todoList,
       todoInput: "",
+      purchased: false,
     };
   }
 
@@ -24,25 +25,52 @@ class App extends React.Component {
 
   addTodo = event => {
     event.preventDefault();
+    const newTodo = {
+      task: this.state.todoInput, 
+      id: Date.now(),
+      purchased: false,
+    };
+
     this.setState({
-      todoOnState: [...this.state.todoOnState, this.state.todoInput],
+      todoOnState: [...this.state.todoOnState, newTodo],
       todoInput: "",
     });
   };
+
+  toggleComplete = id => {
+    this.setState({
+      todoOnState: this.state.todoOnState.map(event =>
+        event.id === id ? { ...event, purchased: !event.purchased } : event
+      )
+    });
+  };
+
+  removePurchased = (event) => {
+    event.preventDefault();
+    this.setState({
+      todoOnState: this.state.todoOnState.filter(event => !event.purchased)
+    });
+  };
+
 
   render() {
     return (
       <div>
 
-        <h2>Todo List: MVP</h2>
+        <h1>Todo List</h1>
 
         <div className="todo-list">
           {this.state.todoOnState.map((todoItem, index) => (
-            <TodoList todoProps={todoItem} key={index} />
+            <TodoList todoProps={todoItem} 
+            key={index} 
+            toggleComplete={this.toggleComplete} />
           ))}
         </div>
 
-        <TodoForm todoInput={this.state.todoInput} handleChanges={this.handleChanges} addTodo={this.addTodo} />
+        <TodoForm todoInput={this.state.todoInput} 
+        handleChanges={this.handleChanges} 
+        addTodo={this.addTodo} 
+        removePurchased={this.removePurchased} />
 
       </div>
     );

@@ -6,8 +6,10 @@ import React from 'react';
 function TodoList(props) {
     return (
       <div className="todo-item">
-          <p>
-            {props.todoProps}
+          <p onClick= { () => props.toggleComplete(props.todoProps.id)} className={
+            props.todoProps.purchased ? "purchased" : ""
+          }>
+            {props.todoProps.task}
           </p>
       </div>
     );
